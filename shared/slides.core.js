@@ -4,6 +4,8 @@
    var s6mode = true; /* are we in slide mode (in contrast to outline mode)? */ 
    var defaultView = 'slideshow'; /* slideshow | outline */
    
+   var s5NotesWindow;
+   var s5NotesWindowLoaded = false;
 
  function debug( msg )	 
  {
@@ -126,7 +128,7 @@ function createNotesWindow() { // creates a window for our notes
 	if (!s5NotesWindow || s5NotesWindow.closed) { // Create the window if it doesn't exist
 		s5NotesWindowLoaded = false;
 		// Note: Safari has a tendency to ignore window options preferring to default to the settings of the parent window, grr.
-		s5NotesWindow = window.open('ui/s5-notes.html', 's5NotesWindow', 'top=0,left=0');
+		s5NotesWindow = window.open('shared/notes.html', 's5NotesWindow', 'top=0,left=0');
 	}
 	if (s5NotesWindowLoaded) { // Load the current note if the Note HTML has loaded
 		loadNote();
@@ -147,10 +149,10 @@ function loadNote() {
 	
 	var jl = document.getElementById('jumplist');
 	var slideTitle = jl.options[jl.selectedIndex].text.replace(/^\d+\s+:\s+/, '') + ((jl.selectedIndex) ? ' (' + jl.selectedIndex + '/' + (smax - 1) + ')' : '');
-	if (incrementals[snum].length > 0) {
+	//if (incrementals[snum].length > 0) {
 //		alert('howdy');
-		slideTitle += ' <small>[' + incpos + '/' + incrementals[snum].length + ']</small>';
-	}
+	//	slideTitle += ' <small>[' + incpos + '/' + incrementals[snum].length + ']</small>';
+	//}
 	if (jl.selectedIndex < smax - 1) {
 		var nextTitle = jl.options[jl.selectedIndex + 1].text.replace(/^\d+\s+:\s+/, '') + ((jl.selectedIndex + 1) ? ' (' + (jl.selectedIndex + 1) + '/' + (smax - 1) + ')' : '');
 	} else {
@@ -163,7 +165,7 @@ function loadNote() {
 		s5NotesWindow.document.getElementById('next').innerHTML = nextTitle;
 		s5NotesWindow.document.getElementById('nextnotes').innerHTML = nextNotes;
 	}
-	resetElapsedSlide();
+	//resetElapsedSlide();
 }
 
 function minimizeTimer(id) {
@@ -181,13 +183,13 @@ function resetElapsedTime() {
 	updateElaspedTime();
 }
 
-function resetElapsedSlide() {
-	if (snum != previousSlide) {
-		slideStart = new Date();
-		previousSlide = snum;
-		updateElaspedTime();
-	}
-}
+//function resetElapsedSlide() {
+	//if (snum != previousSlide) {
+		//slideStart = new Date();
+		//previousSlide = snum;
+		//updateElaspedTime();
+	//}
+//}
 
 function updateElaspedTime() {
 	if (!s5NotesWindowLoaded || !s5NotesWindow || s5NotesWindow.closed) return;
